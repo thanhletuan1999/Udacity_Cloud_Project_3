@@ -35,8 +35,8 @@ jobs:
       uses: docker/build-push-action@v5
       id: docker_build
       with:
-        context: ./udagram-reverseproxy
-        file: ./Dockerfile
+        context: ./
+        file: ./udagram-reverseproxy/Dockerfile
         builder: ${{ steps.buildx.outputs.name }}
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/reverseproxy
