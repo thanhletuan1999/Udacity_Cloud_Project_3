@@ -55,3 +55,14 @@ jobs:
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache
         
+    - name: Build and Push Docker Image [udagram-api-feed]
+      uses: docker/build-push-action@v5
+      id: docker_build_2
+      with:
+        context: ./udagram-api-feed
+        file: ./udagram-api-feed/Dockerfile
+        builder: ${{ steps.buildx.outputs.name }}
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/udagram-api-feed
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache
