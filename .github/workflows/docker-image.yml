@@ -23,15 +23,25 @@ jobs:
       uses: docker/setup-buildx-action@v3
       id: buildx
               
+    - name: Cache Docker Image
+      uses: actions/cache@v3
+      with:
+        path: /tmp/.buildx-cache
+        key: ${{ runner.os }}-buildx-${{ github.sha }}
+        restore-keys: |
+            ${{ runner.os }}-buildx-
+            
     - name: Build and Push Docker Image [reverseproxy]
       uses: docker/build-push-action@v5
       id: docker_build
       with:
-        context: ./
+        context: ./udagram-reverseproxy
         file: ./udagram-reverseproxy/Dockerfile
         builder: ${{ steps.buildx.outputs.name }}
         push: true
         tags: ${{ secrets.DOCKERHUB_USERNAME }}/reverseproxy
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache
         
     - name: Verify docker image reverseproxy
       run: echo ${{ steps.docker_build.outputs.digest }}
