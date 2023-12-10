@@ -43,5 +43,15 @@ jobs:
         cache-from: type=local,src=/tmp/.buildx-cache
         cache-to: type=local,dest=/tmp/.buildx-cache
         
-    - name: Verify docker image reverseproxy
-      run: echo ${{ steps.docker_build.outputs.digest }}
+    - name: Build and Push Docker Image [udagram-api-user]
+      uses: docker/build-push-action@v5
+      id: docker_build_1
+      with:
+        context: ./udagram-api-user
+        file: ./udagram-api-user/Dockerfile
+        builder: ${{ steps.buildx.outputs.name }}
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/udagram-api-user
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache
+        
