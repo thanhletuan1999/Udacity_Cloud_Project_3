@@ -16,7 +16,8 @@ WORKDIR /usr/src/app
 ## A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
 RUN npm i -f
-RUN npm install -g ionic
+## Install ionic
+RUN npm install -g @ionic/cli
 ## Bundle app source
 COPY . .
 RUN ionic build
