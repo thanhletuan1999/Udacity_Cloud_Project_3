@@ -30,3 +30,18 @@ jobs:
         key: ${{ runner.os }}-buildx-${{ github.sha }}
         restore-keys: |
             ${{ runner.os }}-buildx-
+            
+    - name: Build and Push Docker Image [reverseproxy]
+      uses: docker/build-push-action@v5
+      id: docker_build
+      with:
+        context: ./udagram-reverseproxy
+        file: ./Dockerfile
+        builder: ${{ steps.buildx.outputs.name }}
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/reverseproxy
+        cache-from: type=local,src=/tmp/.buildx-cache
+        cache-to: type=local,dest=/tmp/.buildx-cache
+        
+    - name: Verify docker image reverseproxy
+      run: echo ${{ steps.docker_build.outputs.digest }}
