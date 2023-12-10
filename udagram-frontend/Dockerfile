@@ -9,7 +9,8 @@
 # FROM nginx:alpine
 # COPY --from=build  /usr/src/app/www /usr/share/nginx/html/
 ### Build
-FROM beevelop/ionic:latest AS ionic
+## FROM beevelop/ionic:latest AS ionic
+FROM node:16-alpine as build
 ## Create app directory
 WORKDIR /usr/src/app
 ## Install app dependencies
